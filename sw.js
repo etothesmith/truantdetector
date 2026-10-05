@@ -1,4 +1,4 @@
-// Service worker: receives parent push notifications.
+// Service worker: receives push notifications (parent alerts, student class reminders).
 // Paths are relative to where the app lives (the site root, or /jaylene/ on GitHub Pages).
 const here = (p) => new URL(String(p || "").replace(/^\//, ""), self.registration.scope).href;
 self.addEventListener("install", () => self.skipWaiting());
@@ -11,7 +11,7 @@ self.addEventListener("push", (event) => {
     self.registration.showNotification(data.title || "Truant Detector", {
       body: data.body || "",
       tag: data.tag,
-      renotify: true,
+      renotify: data.renotify !== false,
       icon: here("icon-192.png"),
       badge: here("icon-192.png"),
       data: { url: here(data.url) },
